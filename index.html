@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo de Adivinhação</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 50px;
+        }
+        input {
+            margin: 10px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #message {
+            margin-top: 20px;
+            font-size: 18px;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <h1>Jogo de Adivinhação</h1>
+    <input type="number" id="guessInput" placeholder="Adivinhe um número entre 1 e 100">
+    <button id="guessButton">Enviar Palpite</button>
+    <div id="message"></div>
+    <button id="restartButton" style="display:none;">Jogar Novamente</button>
+
+    <script>
+        let randomNumber;
+        const messageDiv = document.getElementById('message');
+        const guessInput = document.getElementById('guessInput');
+        const guessButton = document.getElementById('guessButton');
+        const restartButton = document.getElementById('restartButton');
+
+        function generateRandomNumber() {
+            randomNumber = Math.floor(Math.random() * 100) + 1;
+        }
+
+        function checkGuess() {
+            const guess = Number(guessInput.value);
+            if (guess < 1 || guess > 100) {
+                messageDiv.textContent = 'Por favor, insira um número entre 1 e 100.';
+            } else if (guess < randomNumber) {
+                messageDiv.textContent = 'Muito baixo! Tente novamente.';
+            } else if (guess > randomNumber) {
+                messageDiv.textContent = 'Muito alto! Tente novamente.';
+            } else {
+                messageDiv.textContent = 'Parabéns! Você acertou!';
+                guessButton.style.display = 'none';
+                restartButton.style.display = 'inline';
+            }
+            guessInput.value = '';
+            guessInput.focus();
+        }
+
+        function restartGame() {
+            generateRandomNumber();
+            messageDiv.textContent = '';
+            guessButton.style.display = 'inline';
+            restartButton.style.display = 'none';
+            guessInput.value = '';
+            guessInput.focus();
+        }
+
+        guessButton.addEventListener('click', checkGuess);
+        restartButton.addEventListener('click', restartGame);
+
+        // Inicia o joguinho
+        generateRandomNumber();
+    </script>
+</body>
+</html>
